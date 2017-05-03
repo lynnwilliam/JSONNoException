@@ -283,6 +283,8 @@ public class JSONArray {
     // returns null if no object was found
     public Object getJSONObjectRecursive(String name)
     {
+    	if ( name == null || name.length()==0) return null;	//don't search for something that can not be found
+    	
     	for ( int i=0; i < this.length(); i++ )
     	{
     		Object object = this.get(i);
@@ -303,17 +305,7 @@ public class JSONArray {
     	}
     	return null;
     }
-    
-    private boolean matchName(String[] arrayNames, String name )
-    {
-    	for ( int i=0; i < arrayNames.length; i++ )
-    	{
-    		if ( arrayNames[i].equals(name))
-    			return true;
-    	}
-    	return false;
-    }
-
+   
     /**
      * Get the JSONObject associated with an index.
      *

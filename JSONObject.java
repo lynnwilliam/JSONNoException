@@ -610,6 +610,8 @@ public class JSONObject {
     // returns null if no object was found
     public Object getJSONObjectRecursive(String name) 
     {
+    	if ( name == null || name.length()==0) return null;	//don't search for something that can not be found
+    	
     	Iterator <String> keyIterator = this.keys();
     	while ( keyIterator.hasNext() )
     	{
