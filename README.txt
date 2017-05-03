@@ -1,73 +1,36 @@
-JSON in Java [package org.json]
+# Description
+This project is a Java library for dealing with JSON Objects.
+Its different because!
 
-This package needs a new owner. I have not used it in over a decade, and I do 
-not have time to maintain programs that I do not use.
+## 1. you can now parse JSON Objects without needing to handle exceptions! 
+    Most JSON string data is already normally validated before being put into the JSONObjects, which makes using Exceptions slow!
 
-If you think you can give this package a good home, please contact me.
+This won't throw exceptions since the JSON string is already validated probably by the client or the data-source that created it !
+     JSONObject car = new JSONObject("{car}"); 
 
-Douglas Crockford
-douglas@crockford.com
+## 2. You can recursively search a JSON Object or JSON Array, for an object that matches 'name'. 
+It will search the entire object recursively and return the first matching key name object. 
 
-2015-02-06
+This is great for when web services change the location of the object, when all you want is the object and its location does not matter!
 
+      JSONObject jsonA = "{"car":{"engine":{"sproket":"15"}}}";
+      JSONObject jsonB = "{"car":{"engine": {"gears":{"sproket":"15"}}  }}";
+      In this case we only want the "sproket" object and don't care about its position in the JSON map.
+      Object sproketA = jsonA.getJSONObjectRecursive("sproket");
+      Object sproketB = jsonB.getJSONObjectRecursive("sproket");
+       objects sproketA and sproketB have the same data!  no need to change your business logic!
 
-JSON is a light-weight, language independent, data interchange format.
-See http://www.JSON.org/
+## 3. Use JSON for counting!!!!
 
-The files in this package implement JSON encoders/decoders in Java.
-It also includes the capability to convert between JSON and XML, HTTP
-headers, Cookies, and CDL.
+   Sometimes we want to count objects, well now its easy
+   JSONObject beanCounter = new JSONObject();
+   beanCounter.increment("beanCounter");
+   beanCounter.increment("beanCounter");
+   beanCounter.increment("beanCounter");
+   int beansCount =  beanCounter.getInt("beanCounter"); //will return 3 !!!
 
-This is a reference implementation. There is a large number of JSON packages
-in Java. Perhaps someday the Java community will standardize on one. Until
-then, choose carefully.
-
-The license includes this restriction: "The software shall be used for good,
-not evil." If your conscience cannot live with that, then choose a different
-package.
-
-The package compiles on Java 1.8.
-
-
-JSONObject.java: The JSONObject can parse text from a String or a JSONTokener
-to produce a map-like object. The object provides methods for manipulating its
-contents, and for producing a JSON compliant object serialization.
-
-JSONArray.java: The JSONObject can parse text from a String or a JSONTokener
-to produce a vector-like object. The object provides methods for manipulating
-its contents, and for producing a JSON compliant array serialization.
-
-JSONTokener.java: The JSONTokener breaks a text into a sequence of individual
-tokens. It can be constructed from a String, Reader, or InputStream.
-
-JSONException.java: The JSONException is the standard exception type thrown
-by this package.
-
-
-JSONString.java: The JSONString interface requires a toJSONString method,
-allowing an object to provide its own serialization.
-
-JSONStringer.java: The JSONStringer provides a convenient facility for
-building JSON strings.
-
-JSONWriter.java: The JSONWriter provides a convenient facility for building
-JSON text through a writer.
-
-
-CDL.java: CDL provides support for converting between JSON and comma
-delimited lists.
-
-Cookie.java: Cookie provides support for converting between JSON and cookies.
-
-CookieList.java: CookieList provides support for converting between JSON and
-cookie lists.
-
-HTTP.java: HTTP provides support for converting between JSON and HTTP headers.
-
-HTTPTokener.java: HTTPTokener extends JSONTokener for parsing HTTP headers.
-
-XML.java: XML provides support for converting between JSON and XML.
-
-JSONML.java: JSONML provides support for converting between JSONML and XML.
-
-XMLTokener.java: XMLTokener extends JSONTokener for parsing XML text.
+   JSONObject signoutCounter = new JSONObject();
+   signoutCounter.decrement("signinAttempt");
+   signoutCounter.decrement("signinAttempt");
+   signoutCounter.decrement("signinAttempt");
+   int signinAttempt =  signoutCounter.getInt("signinAttempt"); //will return -3 !!!
