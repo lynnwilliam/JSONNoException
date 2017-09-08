@@ -305,6 +305,31 @@ public class JSONArray {
     	}
     	return null;
     }
+    
+  //Description: this will search the entire object recursively and return the first instance of the object named name
+    // returns null if no object was found
+    public boolean hasKeyRecursive(String name)
+    {
+    	if ( name == null || name.length()==0) return false;	//don't search for something that can not be found
+    	
+    	for ( int i=0; i < this.length(); i++ )
+    	{
+    		Object object = this.get(i);
+	        if (object instanceof JSONArray) 
+	        {
+	        	JSONArray innerObject = (JSONArray) object;
+	        	if (   innerObject.hasKeyRecursive(name) );
+	        		return true;
+	        }
+	        else if  (object instanceof JSONObject) 
+	        {
+	        	JSONObject innerObject = (JSONObject) object;
+	        	if (  innerObject.hasKeyRecursive(name) )
+		        	return true;
+	        }
+    	}
+    	return false;
+    }
    
     /**
      * Get the JSONObject associated with an index.
